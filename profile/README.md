@@ -57,6 +57,26 @@ fork to its path.
 | [`mirror-Plausible`](https://github.com/THEKROLL-LTD/mirror-Plausible) | Live mirror | **Path 2: hardened Alpine** mirror of `plausible/analytics` → `ghcr.io/thekroll-ltd/plausible`. Pinned base by digest, certbot stripped, OCI labels stamped. Distroless infeasible: Elixir/OTP needs ERTS plus a shell entrypoint. Image AGPL-3.0. |
 | [`mirror-uptime-kuma`](https://github.com/THEKROLL-LTD/mirror-uptime-kuma) | Live mirror | **Path 3: full re-base** of `louislam/uptime-kuma` → `ghcr.io/thekroll-ltd/uptime-kuma`. Userland rebuilt end-to-end on `node:22-bookworm-slim`; chromium / mariadb / apprise / cloudflared / fonts replicated so no upstream feature regresses. Apt-layer CVEs land at Debian's cadence, not louislam's. Image MIT. |
 
+### Fathometer — CVE intelligence for the servers you run yourself
+
+| Repository | Type | What it does |
+|---|---|---|
+| [`Fathometer`](https://github.com/THEKROLL-LTD/Fathometer) | Application (Apache-2.0) | Self-hosted CVE triage for plain **root servers** — the gap between container/K8s/CI scanners. Lightweight agents run Trivy filesystem scans on each host and **push** results (no SSH, no credentials, air-gap-capable); Fathometer judges every finding **in context** with an LLM and surfaces only what needs you. |
+
+Where the mirror pipeline above gates *container images* on known CVEs, Fathometer
+covers the other side of the same problem: the handful of **plain root servers** you
+own, which spit out hundreds of findings almost none of which are exploitable in
+*your* setup. Each finding is scored on two axes — *is it reachable / does this host
+run the vulnerable code path / can the preconditions be met* and *what's the damage* —
+landing it in one of four tiers (**Escalate / Act / Watch / Noise**). CVSS, EPSS and
+KEV feed in as weights, never as the verdict, and every downgrade states which
+condition is missing so you can check the call. Verdicts are cached, so you only pay
+the LLM for *new* findings — typically cents per day on an OpenAI-compatible endpoint
+you bring yourself.
+
+Flask / PostgreSQL 17 / HTMX, server-rendered, self-hosted single-user, no external
+CDN dependencies. Reference software, no SLA — run your own copy.
+
 **Engineering principles for everything we publish:** distroless or hardened base images ·
 digest pinning · reproducible builds · CycloneDX SBOM per release · continuous CVE scanning
 with **Trivy** on built artifacts · supply-chain transparency.
