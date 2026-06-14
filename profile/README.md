@@ -56,6 +56,7 @@ fork to its path.
 | [`mirror-Gokapi`](https://github.com/THEKROLL-LTD/mirror-Gokapi) | Live mirror | **Path 1: distroless rebase** of `Forceu/Gokapi` → `ghcr.io/thekroll-ltd/gokapi`. Static Go binary on `gcr.io/distroless/static`. Image AGPL-3.0. |
 | [`mirror-Plausible`](https://github.com/THEKROLL-LTD/mirror-Plausible) | Live mirror | **Path 2: hardened Alpine** mirror of `plausible/analytics` → `ghcr.io/thekroll-ltd/plausible`. Pinned base by digest, certbot stripped, OCI labels stamped. Distroless infeasible: Elixir/OTP needs ERTS plus a shell entrypoint. Image AGPL-3.0. |
 | [`mirror-uptime-kuma`](https://github.com/THEKROLL-LTD/mirror-uptime-kuma) | Live mirror | **Path 3: full re-base** of `louislam/uptime-kuma` → `ghcr.io/thekroll-ltd/uptime-kuma`. Userland rebuilt end-to-end on `node:22-bookworm-slim`; chromium / mariadb / apprise / cloudflared / fonts replicated so no upstream feature regresses. Apt-layer CVEs land at Debian's cadence, not louislam's. Image MIT. |
+| [`mirror-Beszel`](https://github.com/THEKROLL-LTD/mirror-Beszel) | Live mirror | **Path 4: source rebuild on `scratch`** of the `henrygd/beszel` **hub** → `ghcr.io/thekroll-ltd/beszel`. Hub binary plus embedded web UI rebuilt from source (pinned bun + Go) on a digest-pinned, current toolchain; the image stays `scratch` (already minimal), so the hardening lever is Go-stdlib remediation on Go's cadence plus full supply-chain control rather than base slimming. Image MIT. |
 
 ### Fathometer — CVE intelligence for the servers you run yourself
 
